@@ -10,6 +10,12 @@ import(
 type appState struct{
 	cmdMap map[string]cliCommand
 	running bool
+	cfg config
+}
+
+type config struct{
+	next *string
+	previous *string
 }
 
 type cliCommand struct {
@@ -19,6 +25,7 @@ type cliCommand struct {
 }
 
 func initState()*appState{
+	startUrl := "https://pokeapi.co/api/v2/location-area"
 	state := appState{}
 	state.running = true
 	state.cmdMap = map[string]cliCommand{
@@ -32,12 +39,27 @@ func initState()*appState{
 			description: "Exit the Pokedex",
 			callback:    state.commandExit,
 		},
+		"map": {
+			name:        "map",
+			description: "Get the next 20 locations",
+			callback:    state.commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Get the previous 20 locations",
+			callback:    state.commandMapB,
+		},
+	}
+	state.cfg = config{
+		next: &startUrl,
+		previous: nil,
 	}
 	return &state
 }
 
 func (state *appState)run(){
 	scanner := bufio.NewScanner(os.Stdin)
+	
 	for state.running{
 		fmt.Printf("pokedex > ")
 		scanner.Scan()
