@@ -5,12 +5,15 @@ import(
 	"bufio"
 	"os"
 	"strings"
+	"pokedex/internal/pokecache"
+	"time"
 )
 
 type appState struct{
 	cmdMap map[string]cliCommand
 	running bool
 	cfg config
+	cache pokecache.Cache
 }
 
 type config struct{
@@ -54,6 +57,7 @@ func initState()*appState{
 		next: &startUrl,
 		previous: nil,
 	}
+	state.cache = pokecache.NewCache(5 * time.Second)
 	return &state
 }
 

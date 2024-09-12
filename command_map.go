@@ -7,7 +7,7 @@ import(
 
 func (state *appState)commandMap() error{
 	
-	data, err := pokeapi.GetLocations(state.cfg.next)
+	data, err := pokeapi.GetLocations(state.cfg.next, &state.cache)
 	if err != nil{
 		return err
 	}
@@ -27,7 +27,7 @@ func (state *appState)commandMapB() error{
 		return fmt.Errorf("No previous locations")
 	}
 
-	data, err := pokeapi.GetLocations(state.cfg.next)
+	data, err := pokeapi.GetLocations(state.cfg.next, &state.cache)
 	if err != nil{
 		return err
 	}

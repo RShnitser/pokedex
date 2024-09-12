@@ -5,6 +5,7 @@ import(
 	"encoding/json"
 	"io"
 	"net/http"
+	"pokedex/internal/pokecache"
 )
 
 type locationData struct {
@@ -17,26 +18,29 @@ type locationData struct {
 	} `json:"results"`
 }
 
-// func Test(){
-// 	fmt.Println("test")
-// }
+func GetLocations(url *string, cache *pokecache.Cache) (locationData, error){
+	//var bytes []byte
 
-func GetLocations(url *string) (locationData, error){
-	res, err := http.Get(*url)
-	if err != nil {
-		return locationData{}, err
+	bytes, ok := cache.Get(*url)
+	if !ok{
+		
+		res, err := http.Get(*url)
+		if err != nil {
+			return locationData{}, err
+		}
+		bytes, err = io.ReadAll(res.Body)
+		res.Body.Close()
+		if res.StatusCode > 299 {
+			return locationData{}, fmt.Errorf("Response failed with status code: %d and\nbody: %s\n", res.StatusCode, bytes)
+		}
+		if err != nil {
+			return locationData{}, err
+		}
+		cache.Add(*url, bytes)
 	}
-	body, err := io.ReadAll(res.Body)
-	res.Body.Close()
-	if res.StatusCode > 299 {
-		return locationData{}, fmt.Errorf("Response failed with status code: %d and\nbody: %s\n", res.StatusCode, body)
-	}
-	if err != nil {
-		return locationData{}, err
-	}
-	
+
 	data := locationData{}
-	err = json.Unmarshal(body, &data)
+	err := json.Unmarshal(bytes, &data)
 	if err != nil {
 		return locationData{}, err
 	}
