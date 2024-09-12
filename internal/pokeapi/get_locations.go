@@ -19,8 +19,7 @@ type locationData struct {
 }
 
 func GetLocations(url *string, cache *pokecache.Cache) (locationData, error){
-	//var bytes []byte
-
+	
 	bytes, ok := cache.Get(*url)
 	if !ok{
 		
