@@ -5,7 +5,7 @@ import(
 	"pokedex/internal/pokeapi"
 )
 
-func (state *appState)commandMap() error{
+func (state *appState)commandMap(args ...string) error{
 	
 	data, err := pokeapi.GetLocations(state.cfg.next, &state.cache)
 	if err != nil{
@@ -22,7 +22,7 @@ func (state *appState)commandMap() error{
 	return nil
 }
 
-func (state *appState)commandMapB() error{
+func (state *appState)commandMapB(args ...string) error{
 	if state.cfg.previous == nil{
 		return fmt.Errorf("No previous locations")
 	}

@@ -24,7 +24,7 @@ type config struct{
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(...string) error
 }
 
 func initState()*appState{
@@ -52,6 +52,11 @@ func initState()*appState{
 			description: "Get the previous 20 locations",
 			callback:    state.commandMapB,
 		},
+		"explore": {
+			name:        "explore",
+			description: "Get the pokemon in an area",
+			callback:    state.commandExplore,
+		},
 	}
 	state.cfg = config{
 		next: &startUrl,
@@ -71,13 +76,18 @@ func (state *appState)run(){
 		input = strings.ToLower(input)
 		words := strings.Fields(input)
 
+		args := []string{}
+		if len(words) > 1{
+			args = words[1:]
+		}
+
 		cmd, ok := state.cmdMap[words[0]]
 		if !ok{
 			fmt.Println("Invalid command")
 			continue
 		}
 
-		err := cmd.callback()
+		err := cmd.callback(args...)
 		if err != nil{
 			fmt.Println(err)
 			continue
