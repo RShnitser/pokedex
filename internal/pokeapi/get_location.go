@@ -61,8 +61,9 @@ type allLocationData struct {
 	} `json:"pokemon_encounters"`
 }
 
-func GetLocation(url string, cache *pokecache.Cache) (allLocationData, error){
+func GetLocation(name string, cache *pokecache.Cache) (allLocationData, error){
 	
+	url := "https://pokeapi.co/api/v2/location-area/" + name
 	bytes, ok := cache.Get(url)
 	if !ok{
 		

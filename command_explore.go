@@ -11,7 +11,7 @@ func (state *appState)commandExplore(args ...string) error{
 		return fmt.Errorf("Provide a location name")
 	}
 	name := args[0]
-	data, err := pokeapi.GetLocation("https://pokeapi.co/api/v2/location-area/" + name, &state.cache)
+	data, err := pokeapi.GetLocation(name, &state.cache)
 	if err != nil{
 		return err
 	}

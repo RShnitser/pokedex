@@ -7,6 +7,7 @@ import(
 	"strings"
 	"pokedex/internal/pokecache"
 	"time"
+	"pokedex/internal/pokeapi"
 )
 
 type appState struct{
@@ -14,6 +15,7 @@ type appState struct{
 	running bool
 	cfg config
 	cache pokecache.Cache
+	pokedex map[string]pokeapi.Pokemon
 }
 
 type config struct{
@@ -31,6 +33,7 @@ func initState()*appState{
 	startUrl := "https://pokeapi.co/api/v2/location-area"
 	state := appState{}
 	state.running = true
+	state.pokedex = make(map[string]pokeapi.Pokemon)
 	state.cmdMap = map[string]cliCommand{
 		"help": {
 			name:        "help",
@@ -56,6 +59,16 @@ func initState()*appState{
 			name:        "explore",
 			description: "Get the pokemon in an area",
 			callback:    state.commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Attempt to catch a pokemon",
+			callback:    state.commandCatch,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "Look at a pokemon's stats",
+			callback:    state.commandInspect,
 		},
 	}
 	state.cfg = config{
