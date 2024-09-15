@@ -70,6 +70,11 @@ func initState()*appState{
 			description: "Look at a pokemon's stats",
 			callback:    state.commandInspect,
 		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "List pokemon in your pokedex",
+			callback:    state.commandPokedex,
+		},
 	}
 	state.cfg = config{
 		next: &startUrl,

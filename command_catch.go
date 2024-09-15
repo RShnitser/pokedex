@@ -23,21 +23,10 @@ func (state *appState)commandCatch(args ...string) error{
 	if caught{
 		fmt.Printf("%s was caught!\n", name)
 		state.pokedex[data.Name] = data
+		fmt.Println("You may now inspect it with the inspect command.")
 	}else{
 		fmt.Printf("%s escaped!\n", name)
 	}
-
-	// fmt.Println(data.Name)
-	// fmt.Println(data.BaseExperience)
-	// fmt.Println(data.Height)
-	// fmt.Println(data.Weight)
-	// for _, stat := range data.Stats{
-	// 	fmt.Printf(" - %s: %v\n", stat.Stat.Name, stat.BaseStat)
-	// }
-	// for _, typeData := range data.Types{
-	// 	fmt.Printf(" - %s\n", typeData.Type.Name)
-	// }
-
 
 	return nil
 }
