@@ -6,7 +6,7 @@ import(
 
 func (state *appState)commandHelp(args ...string) error{
 	fmt.Println()
-	fmt.Println("Welcome to the pokedex!")
+	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
 	fmt.Println()
 

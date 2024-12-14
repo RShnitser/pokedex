@@ -88,11 +88,9 @@ func (state *appState)run(){
 	scanner := bufio.NewScanner(os.Stdin)
 	
 	for state.running{
-		fmt.Printf("pokedex > ")
+		fmt.Printf("Pokedex > ")
 		scanner.Scan()
-		input := scanner.Text()
-		input = strings.ToLower(input)
-		words := strings.Fields(input)
+		words := cleanInput(scanner.Text())
 
 		args := []string{}
 		if len(words) > 1{
